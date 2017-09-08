@@ -9,16 +9,11 @@ var smokerCheck = document.getElementsByName('smoker')[0]
 
 addPersonButton.addEventListener('click', function(e) {
     e.preventDefault()
-    console.log(form)
-    console.log(inputAge.value)
-    console.log(selectRel.value)
-    console.log(smokerCheck.value)
 
-    var url = new URL(window.location.href)
-    var rel = url.searchParams.get('rel')
-    var smoker = url.searchParams.get('smoker') == 'on' ? true: false
-    var age = url.searchParams.get('age')
-    if (validateAge(Number(age))) {
+    var rel = selectRel.value
+    var smoker = smokerCheck.value == 'on' ? true: false
+    var age = Number(inputAge.value)
+    if (validateAge(age) && rel !== '') {
         var person = {
             'age': age,
             'rel': rel,
@@ -27,10 +22,16 @@ addPersonButton.addEventListener('click', function(e) {
         addPerson(person)
     }
     else {
-        //alert('Invalid age please try again, age must be greater than 0')
+        alert('Invalid age or relation please try again, age must be greater than 0')
     }
 
 }, false)
+
+function removePreviousPerson(e) {
+    e.preventDefault()
+    persons.pop()
+    displayHousehold()
+}
 
 function validateAge(age) {
     return age > 0
@@ -38,15 +39,20 @@ function validateAge(age) {
 
 function addPerson(person) {
     persons.push(person)
+    displayHousehold()
 }
 
 function displayHousehold() {
     householdList.innerHTML = ''
-    console.log('display householdlist with persons: ', persons.length)
     for (var person of persons) {
         var li = document.createElement('li')
         var personText = 'age: ' + person['age'] + '\nrelationship: ' + person['rel'] + '\nSmoker: ' + person['smoker']
         li.appendChild(document.createTextNode(personText))
         householdList.appendChild(li)
     }
+
+    var removeButton = document.createElement('button')
+    removeButton.addEventListener('click', removePreviousPerson, false)
+    removeButton.appendChild(document.createTextNode('Remove Previous'))
+    householdList.appendChild(removeButton)
 }
