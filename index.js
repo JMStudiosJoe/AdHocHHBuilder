@@ -104,11 +104,14 @@ function submitPersons(e) {
 
 function displaySubmission(submitted) {
     var builder = document.getElementsByClassName('builder')[0]
-    var code = document.createElement('code')
     var submission = document.createTextNode(submitted)
-    code.appendChild(submission)
-    pre.appendChild(code)
-    console.log(pre)
-    builder.appendChild(pre)
+    var cont = document.createElement('p')
+
+    pre.textContent = submitted
+    pre.appendChild(submission)
+    cont.appendChild(submission)
+    document.body.appendChild(cont)
+    console.log(cont)
+    console.log(builder)
 
 }
