@@ -42,17 +42,30 @@ function addPerson(person) {
     displayHousehold()
 }
 
+function createRemoveButtonForHousholdList() {
+    var removeButton = document.createElement('button')
+    removeButton.addEventListener('click', removePreviousPerson, false)
+    removeButton.appendChild(document.createTextNode('Remove Previous'))
+    return removeButton
+}
+
+function displayPersonDetails(person) {
+    return 'age: ' + 
+           person['age'] + 
+           ' | relationship: ' + 
+           person['rel'] + 
+           ' | smoker: ' + 
+           person['smoker']
+}
+
 function displayHousehold() {
     householdList.innerHTML = ''
     for (var person of persons) {
         var li = document.createElement('li')
-        var personText = 'age: ' + person['age'] + '\nrelationship: ' + person['rel'] + '\nSmoker: ' + person['smoker']
-        li.appendChild(document.createTextNode(personText))
+        var personDetails = displayPersonDetails(person)
+        li.appendChild(document.createTextNode(personDetails))
         householdList.appendChild(li)
     }
-
-    var removeButton = document.createElement('button')
-    removeButton.addEventListener('click', removePreviousPerson, false)
-    removeButton.appendChild(document.createTextNode('Remove Previous'))
+    var removeButton = createRemoveButtonForHousholdList()
     householdList.appendChild(removeButton)
 }
