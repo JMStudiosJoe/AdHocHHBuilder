@@ -11,9 +11,13 @@ addPersonButton.addEventListener('click', function(e) {
     e.preventDefault()
 
     var rel = selectRel.value
-    var smoker = smokerCheck.value == 'on' ? true: false
+    var smoker = smokerCheck.checked
     var age = Number(inputAge.value)
-    if (validateAge(age) && rel !== '') {
+    
+    var errorMessage = validateAge(age)
+    errorMessage += validateRel(rel)
+
+    if (errorMessage.length ==  0) {
         var person = {
             'age': age,
             'rel': rel,
@@ -22,7 +26,7 @@ addPersonButton.addEventListener('click', function(e) {
         addPerson(person)
     }
     else {
-        alert('Invalid age or relation please try again, age must be greater than 0')
+        alert(errorMessage)
     }
 
 }, false)
@@ -34,7 +38,22 @@ function removePreviousPerson(e) {
 }
 
 function validateAge(age) {
-    return age > 0
+    if (age > 0) {
+        return ''
+    }
+    else {
+        return 'Invalid age, must be greater than 0'
+    }
+}
+
+function validateRel(rel) {
+    switch (rel) {
+        case '':
+            return ' Invalid relationship'
+
+        default:
+            return ''
+    }
 }
 
 function addPerson(person) {
