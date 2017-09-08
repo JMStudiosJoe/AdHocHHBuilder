@@ -103,9 +103,7 @@ function submitPersons(e) {
 }
 
 function displaySubmission(submitted) {
-    console.log(pre)
-    console.log(submitted)
-    console.log(typeof(submitted))
     var submission = document.createTextNode(submitted)
-    pre.innerText = submitted
+    pre.appendChild(submission)
+    console.log(pre)
 }
