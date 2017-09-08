@@ -6,8 +6,13 @@ var form = document.forms[0]
 var inputAge = document.getElementsByName('age')[0]
 var selectRel = document.getElementsByName('rel')[0]
 var smokerCheck = document.getElementsByName('smoker')[0]
+var submitButton = form[form.length - 1]
+var pre = document.getElementsByClassName('debug')[0]
 
-addPersonButton.addEventListener('click', function(e) {
+submitButton.addEventListener('click', submitPersons, false)
+addPersonButton.addEventListener('click', handleAddPersonClick, false)
+
+function handleAddPersonClick(e) {
     e.preventDefault()
 
     var rel = selectRel.value
@@ -24,12 +29,12 @@ addPersonButton.addEventListener('click', function(e) {
             'smoker': smoker
         }
         addPerson(person)
+        
     }
     else {
         alert(errorMessage)
     }
-
-}, false)
+}
 
 function removePreviousPerson(e) {
     e.preventDefault()
@@ -87,4 +92,20 @@ function displayHousehold() {
     }
     var removeButton = createRemoveButtonForHousholdList()
     householdList.appendChild(removeButton)
+}
+
+function submitPersons(e) {
+    e.preventDefault()
+    var jsonPersons = {
+        'householdPersons': persons
+    }
+    displaySubmission(JSON.stringify(jsonPersons))
+}
+
+function displaySubmission(submitted) {
+    console.log(pre)
+    console.log(submitted)
+    console.log(typeof(submitted))
+    var submission = document.createTextNode(submitted)
+    pre.innerText = submitted
 }
