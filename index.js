@@ -7,7 +7,7 @@ var inputAge = document.getElementsByName('age')[0]
 var selectRel = document.getElementsByName('rel')[0]
 var smokerCheck = document.getElementsByName('smoker')[0]
 var submitButton = form[form.length - 1]
-var pre = document.getElementsByClassName('debug')[0]
+var pre = document.getElementsByTagName('pre')[0]
 
 submitButton.addEventListener('click', submitPersons, false)
 addPersonButton.addEventListener('click', handleAddPersonClick, false)
@@ -103,15 +103,7 @@ function submitPersons(e) {
 }
 
 function displaySubmission(submitted) {
-    var builder = document.getElementsByClassName('builder')[0]
-    var submission = document.createTextNode(submitted)
-    var cont = document.createElement('p')
-
-    pre.textContent = submitted
-    pre.appendChild(submission)
-    cont.appendChild(submission)
-    document.body.appendChild(cont)
-    console.log(cont)
-    console.log(builder)
-
+    pre.innerHTML += submitted
+    pre.style.display = 'block'
+    document.body.appendChild(pre)
 }
