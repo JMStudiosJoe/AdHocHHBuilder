@@ -1,4 +1,3 @@
-// your code goes here ...
 var persons = []
 var addPersonButton = document.getElementsByClassName('add')[0]
 var householdList = document.getElementsByClassName('household')[0]
@@ -40,9 +39,11 @@ function addPerson(person) {
     displayHousehold()
 }
 
-function removePreviousPerson(e) {
+function removePerson(e) {
     e.preventDefault()
-    persons.pop()
+    var indexToRemove = e.target.id
+    persons.splice(indexToRemove, 1)
+
     displayHousehold()
 }
 
@@ -75,14 +76,15 @@ function validateRel(rel) {
 
 function displayHousehold() {
     householdList.innerHTML = ''
-    for (var person of persons) {
+    for (var index = 0; index < persons.length; index++) {
+        var person = persons[index]
         var li = document.createElement('li')
         var personDetails = formatPersonDetails(person)
+        var removeButton = createRemoveButtonForHousholdList(index)
         li.appendChild(document.createTextNode(personDetails))
+        li.appendChild(removeButton)
         householdList.appendChild(li)
     }
-    var removeButton = createRemoveButtonForHousholdList()
-    householdList.appendChild(removeButton)
 }
 
 function displaySubmission(submitted) {
@@ -97,9 +99,10 @@ function formatPersonDetails(person) {
     return 'age: ' + person['age'] + ' | relationship: ' + person['rel'] + ' | smoker: ' + person['smoker']
 }
 
-function createRemoveButtonForHousholdList() {
+function createRemoveButtonForHousholdList(index) {
     var removeButton = document.createElement('button')
-    removeButton.addEventListener('click', removePreviousPerson, false)
-    removeButton.appendChild(document.createTextNode('Remove Previous'))
+    removeButton.addEventListener('click', removePerson, false)
+    removeButton.id = index
+    removeButton.appendChild(document.createTextNode(' | X |'))
     return removeButton
 }
