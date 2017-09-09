@@ -12,7 +12,6 @@ var pre = document.getElementsByTagName('pre')[0]
 submitButton.addEventListener('click', submitPersons, false)
 addPersonButton.addEventListener('click', handleAddPersonClick, false)
 
-//Actions
 function handleAddPersonClick(e) {
     e.preventDefault()
 
@@ -55,7 +54,6 @@ function submitPersons(e) {
     displaySubmission(JSON.stringify(jsonPersons))
 }
 
-//Validation
 function validateAge(age) {
     if (age > 0) {
         return ''
@@ -75,7 +73,6 @@ function validateRel(rel) {
     }
 }
 
-//Displayers
 function displayHousehold() {
     householdList.innerHTML = ''
     for (var person of persons) {
@@ -96,7 +93,6 @@ function displaySubmission(submitted) {
     document.body.appendChild(pre)
 }
 
-//helpers
 function formatPersonDetails(person) {
     return 'age: ' + person['age'] + ' | relationship: ' + person['rel'] + ' | smoker: ' + person['smoker']
 }
