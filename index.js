@@ -105,5 +105,7 @@ function submitPersons(e) {
 function displaySubmission(submitted) {
     pre.innerHTML += submitted
     pre.style.display = 'block'
+    pre.style.whiteSpace = 'pre-wrap'
+    pre.style.wordBreak = 'keep-all'
     document.body.appendChild(pre)
 }
