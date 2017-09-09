@@ -12,13 +12,14 @@ var pre = document.getElementsByTagName('pre')[0]
 submitButton.addEventListener('click', submitPersons, false)
 addPersonButton.addEventListener('click', handleAddPersonClick, false)
 
+//Actions
 function handleAddPersonClick(e) {
     e.preventDefault()
 
     var rel = selectRel.value
     var smoker = smokerCheck.checked
     var age = Number(inputAge.value)
-    
+
     var errorMessage = validateAge(age)
     errorMessage += validateRel(rel)
 
@@ -29,11 +30,15 @@ function handleAddPersonClick(e) {
             'smoker': smoker
         }
         addPerson(person)
-        
     }
     else {
         alert(errorMessage)
     }
+}
+
+function addPerson(person) {
+    persons.push(person)
+    displayHousehold()
 }
 
 function removePreviousPerson(e) {
@@ -42,6 +47,15 @@ function removePreviousPerson(e) {
     displayHousehold()
 }
 
+function submitPersons(e) {
+    e.preventDefault()
+    var jsonPersons = {
+        'householdPersons': persons
+    }
+    displaySubmission(JSON.stringify(jsonPersons))
+}
+
+//Validation
 function validateAge(age) {
     if (age > 0) {
         return ''
@@ -61,45 +75,17 @@ function validateRel(rel) {
     }
 }
 
-function addPerson(person) {
-    persons.push(person)
-    displayHousehold()
-}
-
-function createRemoveButtonForHousholdList() {
-    var removeButton = document.createElement('button')
-    removeButton.addEventListener('click', removePreviousPerson, false)
-    removeButton.appendChild(document.createTextNode('Remove Previous'))
-    return removeButton
-}
-
-function displayPersonDetails(person) {
-    return 'age: ' + 
-           person['age'] + 
-           ' | relationship: ' + 
-           person['rel'] + 
-           ' | smoker: ' + 
-           person['smoker']
-}
-
+//Displayers
 function displayHousehold() {
     householdList.innerHTML = ''
     for (var person of persons) {
         var li = document.createElement('li')
-        var personDetails = displayPersonDetails(person)
+        var personDetails = formatPersonDetails(person)
         li.appendChild(document.createTextNode(personDetails))
         householdList.appendChild(li)
     }
     var removeButton = createRemoveButtonForHousholdList()
     householdList.appendChild(removeButton)
-}
-
-function submitPersons(e) {
-    e.preventDefault()
-    var jsonPersons = {
-        'householdPersons': persons
-    }
-    displaySubmission(JSON.stringify(jsonPersons))
 }
 
 function displaySubmission(submitted) {
@@ -108,4 +94,16 @@ function displaySubmission(submitted) {
     pre.style.whiteSpace = 'pre-wrap'
     pre.style.wordBreak = 'keep-all'
     document.body.appendChild(pre)
+}
+
+//helpers
+function formatPersonDetails(person) {
+    return 'age: ' + person['age'] + ' | relationship: ' + person['rel'] + ' | smoker: ' + person['smoker']
+}
+
+function createRemoveButtonForHousholdList() {
+    var removeButton = document.createElement('button')
+    removeButton.addEventListener('click', removePreviousPerson, false)
+    removeButton.appendChild(document.createTextNode('Remove Previous'))
+    return removeButton
 }
